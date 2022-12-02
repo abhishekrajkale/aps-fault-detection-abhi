@@ -1,8 +1,6 @@
 import sys,os
 
-def error_message_detail(error, error_detail: sys):
-    pass
-  
+def error_message_detail(error, error_detail: sys):...
 
 
 
