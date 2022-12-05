@@ -44,8 +44,8 @@ class DataValidation:
             logging.info(f"selecting column name which contains null above to {threshold}")
             drop_column_names = null_report[null_report>threshold].index
 
-            logging.info(f"Columns to drop: (drop_column_names)")
-            self.validation_error[report_key_name]=drop_column_names
+            logging.info(f"Columns to drop: {list(drop_column_names)}")
+            self.validation_error[report_key_name]=list(drop_column_names)
             df.drop(list(drop_column_names),axis=1,inplace=True)
 
             #return None no columns left
@@ -91,12 +91,12 @@ class DataValidation:
                 if same_distribution.pvalue>0.05:
                     #We are accepting null hypothesis
                     drift_report[base_column]={
-                        "pvalues":same_distribution.pvalue,
+                        "pvalues":float(same_distribution.pvalue),
                         "same_distribution": True
                     }
                 else:
                     drift_report[base_column]={
-                        "pvalues":same_distribution.pvalue,
+                        "pvalues":float(same_distribution.pvalue),
                         "same_distribution":False
                     }
                     #different distribution
