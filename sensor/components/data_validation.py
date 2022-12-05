@@ -7,7 +7,7 @@ import os,sys
 import pandas as pd
 from sensor import utils
 import numpy as np
-from sensor.config import TARGET_COLUMN
+
 
 
 
@@ -44,8 +44,8 @@ class DataValidation:
             logging.info(f"selecting column name which contains null above to {threshold}")
             drop_column_names = null_report[null_report>threshold].index
 
-            logging.info(f"Columns to drop: {list(drop_column_names)}")
-            self.validation_error[report_key_name]=list(drop_column_names)
+            logging.info(f"Columns to drop: (drop_column_names)")
+            self.validation_error[report_key_name]=drop_column_names
             df.drop(list(drop_column_names),axis=1,inplace=True)
 
             #return None no columns left
@@ -91,12 +91,12 @@ class DataValidation:
                 if same_distribution.pvalue>0.05:
                     #We are accepting null hypothesis
                     drift_report[base_column]={
-                        "pvalues":float(same_distribution.pvalue),
+                        "pvalues":same_distribution.pvalue,
                         "same_distribution": True
                     }
                 else:
                     drift_report[base_column]={
-                        "pvalues":float(same_distribution.pvalue),
+                        "pvalues":same_distribution.pvalue,
                         "same_distribution":False
                     }
                     #different distribution
@@ -125,7 +125,7 @@ class DataValidation:
             logging.info(f"Drop null values colums from test df")
             test_df = self.drop_missing_values_columns(df=test_df,report_key_name="missing_values_within_test_dataset")
             
-            exclude_columns = [TARGET_COLUMN]
+            exclude_columns = ["class"]
             base_df = utils.convert_columns_float(df=base_df, exclude_columns=exclude_columns)
             train_df = utils.convert_columns_float(df=train_df, exclude_columns=exclude_columns)
             test_df = utils.convert_columns_float(df=test_df, exclude_columns=exclude_columns)
