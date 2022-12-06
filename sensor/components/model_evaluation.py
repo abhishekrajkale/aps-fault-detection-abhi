@@ -1,4 +1,4 @@
-
+from sensor.predictor import ModelResolver 
 from sensor.entity import config_entity,artifact_entity
 from sensor.exception import SensorException
 from sensor.logger import logging
